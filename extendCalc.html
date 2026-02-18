@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head><title>Calculator </title>
+</head>
+<script>
+    function calculate() {
+        let num1 = parseFloat(document.getElementById('num1').value);
+        let num2 = parseFloat(document.getElementById('num2').value);
+        let operation = getSelectedRadioValue(); // Získání vybrané operace
+
+        let result;
+        if (operation === "plus") {
+            result = num1 + num2;
+        } else if (operation === "minus") {
+            result = num1 - num2;
+        } else if (operation === "multi") {
+            result = num1 * num2;
+        } else {
+            alert("Please select an operation.");
+            return;
+        }
+
+        document.getElementById('result').innerText = 'Result: ' + result;
+    }
+
+    function getSelectedRadioValue() {
+        let radios = document.getElementsByName("R");
+
+        for (let radio of radios) {
+            if (radio.checked) {
+                return radio.value; // Vrací vybranou hodnotu (např. "plus", "minus", "multi")
+            }
+        }
+
+        return ""; // Pokud není nic vybráno, vrátí prázdný řetězec
+    }
+</script>
+<body>
+    	<h1>Hi Use my Calc</h1>
+        <h2>Extended Calculator</h2>
+
+<input type="number" id="num1" placeholder="Enter first number">
+
+<input type="number" id="num2" placeholder="Enter second number">
+
+<form>
+  <input type="radio" id="R1" name="R" value="plus">
+  <label for="plus">Plus</label><br>
+  <input type="radio" id="R2" name="R" value="minus">
+  <label for="minus">Minus</label><br>
+  <input type="radio" id="R3" name="R" value="multi">
+ <label for="x">Multiplication</label>
+</form> 
+
+
+<button onclick="calculate()">calculate</button>
+<p id="result"> sem se vrati vysledek</p>
+
+
+</body>
+</html>
