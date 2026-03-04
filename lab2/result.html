@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Result</title>
+</head>
+<body>
+    <h2>Form Data</h2>
+
+    <p><strong>UserName:</strong> <span id="displayUsername"></span></p>
+    <p><strong>Password:</strong> <span id="displayPassword"></span></p>
+    <p><strong>Text:</strong> <span id="displayText"></span></p>
+
+    <button onclick="goBack()">Back</button>
+
+    <script>
+        function getQueryParams() {
+            let params = {};
+            let queryString = window.location.search.substring(1);
+            let urlParams = new URLSearchParams(queryString);
+            for (let [key, value] of urlParams) {
+                params[key] = decodeURIComponent(value);
+            }
+            return params;
+        }
+
+        function displayData() {
+            let params;
+            
+            if (window.location.search) {
+                // Pokud je metoda GET, čteme z URL
+                params = getQueryParams();
+            } else {
+                // Pokud je metoda LOCAL (simulace POST), čteme z localStorage
+                params = {
+                    username: localStorage.getItem("username"),
+                    password: localStorage.getItem("password"),
+                    text: localStorage.getItem("text")
+                };
+
+                // Odstraníme data z localStorage (aby nezůstala viditelná při dalším načtení stránky)
+                localStorage.removeItem("username");
+                localStorage.removeItem("password");
+                localStorage.removeItem("text");
+            }
+
+            document.getElementById("displayUsername").textContent = params.username || "N/A";
+            document.getElementById("displayPassword").textContent = params.password || "N/A";
+            document.getElementById("displayText").textContent = params.text || "N/A";
+        }
+
+        function goBack() {
+            window.location.href = "index.html";
+        }
+
+        // Po načtení stránky zobrazíme data
+        displayData();
+    </script>
+</body>
+</html>
