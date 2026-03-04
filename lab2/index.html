@@ -12,6 +12,9 @@
         <label for="username">UserName:</label><Br>
         <input type="text" id="username" name="username" required><br><br>
 
+        <label for="username">UserAddress:</label><Br>
+        <input type="text" id="userAddress" name="userAddress" required><br><br>
+
         <label for="password">Password:</label><Br>
         <input type="password" id="password" name="password" required><br><br>
 
@@ -34,6 +37,8 @@
 
             let username = document.getElementById("username").value;
             let password = document.getElementById("password").value;
+            let userAddress = document.getElementById("userAddress").value;
+            
             let text = document.getElementById("text").value;
             let method = document.querySelector('input[name="method"]:checked').value;
 
@@ -44,6 +49,7 @@
                 // Uložení dat do localStorage (simulace POST, skryté v prohlížeči)
                 localStorage.setItem("username", username);
                 localStorage.setItem("password", password);
+                localStorage.setItem("userAddress", userAddress);
                 localStorage.setItem("text", text);
 
                 // Přesměrování na druhou stránku
