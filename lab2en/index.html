@@ -1,0 +1,56 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Submission</title>
+</head>
+<body>
+    <h2>Enter Your Details</h2>
+
+    <form id="userForm">
+        <label for="username">UserName:</label>
+        <input type="text" id="username" name="username" required><br><br>
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required><br><br>
+
+        <label for="text">Text:</label><br>
+        <textarea id="text" name="text" rows="4" cols="30"></textarea><br><br>
+
+        <label>Select method:</label><br>
+        <input type="radio" id="getMethod" name="method" value="GET" checked>
+        <label for="getMethod">GET</label>
+
+        <input type="radio" id="postMethod" name="method" value="LOCAL">
+        <label for="postMethod">LOCAL (Simulating POST)</label><br><br>
+
+        <button type="submit">Submit</button>
+    </form>
+
+    <script>
+        document.getElementById("userForm").addEventListener("submit", function(event) {
+            event.preventDefault(); // Zamezí klasickému odeslání formuláře
+
+            let username = document.getElementById("username").value;
+            let password = document.getElementById("password").value;
+            let text = document.getElementById("text").value;
+            let method = document.querySelector('input[name="method"]:checked').value;
+
+            if (method === "GET") {
+                // Odeslání dat metodou GET (viditelné v URL)
+                window.location.href = `result.html?username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}&text=${encodeURIComponent(text)}`;
+            } else {
+                // Uložení dat do localStorage (simulace POST, skryté v prohlížeči)
+                localStorage.setItem("username", username);
+                localStorage.setItem("password", password);
+                localStorage.setItem("text", text);
+
+                // Přesměrování na druhou stránku
+                window.location.href = "result.html";
+            }
+        });
+    </script>
+</body>
+</html>
