@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Management</title>
+</head>
+<body>
+    <h1>Product Management</h1>
+
+    <input type="number" id="productId" placeholder="Product ID">
+    <input type="text" id="productName" placeholder="Product Name">
+    <input type="number" id="productPrice" placeholder="Product Price">
+
+    <button onclick="addProduct()">Add Product</button>
+    <button onclick="updateProduct()">Update Product</button>
+
+    <h2>Products</h2>
+    <ul id="productList"></ul>
+
+    <script>
+        const API_URL = "/products";
+
+        async function fetchProducts() {
+            try {
+                const response = await fetch(API_URL);
+                const products = await response.json();
+
+                const list = document.getElementById("productList");
+                list.innerHTML = "";
+
+                products.forEach(product => {
+                    const li = document.createElement("li");
+                    li.innerHTML = `${product.id}: ${product.name} - $${product.price}
+                        <button onclick="deleteProduct(${product.id})">Delete</button>`;
+                    list.appendChild(li);
+                });
+            } catch (error) {
+                console.error("Error fetching products:", error);
+            }
+        }
+
+        async function addProduct() {
+            const id = document.getElementById("productId").value;
+            const name = document.getElementById("productName").value;
+            const price = document.getElementById("productPrice").value;
+
+            const product = { id, name, price };
+
+            try {
+                await fetch(API_URL, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(product)
+                });
+                fetchProducts();
+            } catch (error) {
+                console.error("Error adding product:", error);
+            }
+        }
+
+        async function updateProduct() {
+            const id = document.getElementById("productId").value;
+            const name = document.getElementById("productName").value;
+            const price = document.getElementById("productPrice").value;
+
+            const product = { id, name, price };
+
+            try {
+                await fetch(`${API_URL}/${id}`, {
+                    method: "PUT",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(product)
+                });
+                fetchProducts();
+            } catch (error) {
+                console.error("Error updating product:", error);
+            }
+        }
+
+        async function deleteProduct(id) {
+            try {
+                await fetch(`${API_URL}/${id}`, {
+                    method: "DELETE"
+                });
+                fetchProducts();
+            } catch (error) {
+                console.error("Error deleting product:", error);
+            }
+        }
+
+        fetchProducts();
+    </script>
+</body>
+</html>

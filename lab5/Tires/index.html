@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Tire Change Reservation</title>
+</head>
+<body>
+  <h1>Book a Tire Change Appointment</h1>
+
+  <label>Date and Time:</label>
+  <input type="datetime-local" id="time" />
+
+  <label>Your Name:</label>
+  <input type="text" id="name" />
+
+  <label>Car Model:</label>
+  <input type="text" id="car" />
+
+  <label>Phone Number:</label>
+  <input type="tel" id="phone" />
+
+  <button id="create">Create Reservation</button>
+  <button id="update">Update Reservation</button>
+  <button id="delete">Delete Reservation</button>
+
+  <hr>
+  <h2>Existing Reservations</h2>
+  <ul id="reservations"></ul>
+
+  <script src="app.js"></script>
+</body>
+</html>

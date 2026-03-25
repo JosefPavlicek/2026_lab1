@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Management</title>
+
+    <!-- React-like styles -->
+    <script src="styles.js"></script>
+</head>
+<body>
+    <main class="app">
+        <header class="header">
+            <h1>Product Management</h1>
+        </header>
+
+        <section class="card">
+            <input type="number" id="productId" placeholder="Product ID">
+            <input type="text" id="productName" placeholder="Product Name">
+            <input type="number" id="productPrice" placeholder="Product Price">
+
+            <div class="buttons">
+                <button class="btn success" onclick="addProduct()">Add</button>
+                <button class="btn primary" onclick="updateProduct()">Update</button>
+            </div>
+        </section>
+
+        <section class="card">
+            <h2>Products</h2>
+            <ul id="productList" class="list"></ul>
+        </section>
+    </main>
+
+    <script>
+        const API_URL = "/products";
+
+        async function fetchProducts() {
+            const res = await fetch(API_URL);
+            const products = await res.json();
+
+            const list = document.getElementById("productList");
+            list.innerHTML = "";
+
+            products.forEach(p => {
+                const li = document.createElement("li");
+                li.className = "item";
+                li.innerHTML = `
+                    <div>
+                        <strong>${p.name}</strong><br>
+                        <small>ID: ${p.id} | $${p.price}</small>
+                    </div>
+                    <button class="btn danger" onclick="deleteProduct(${p.id})">Delete</button>
+                `;
+                list.appendChild(li);
+            });
+        }
+
+    async function addProduct() {
+    const id = productId.value;
+    const name = productName.value;
+    const price = productPrice.value;
+
+    try {
+        const response = await fetch(API_URL, {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({ id, name, price })
+        });
+
+        // Pokud server vrátí chybu (např. duplicitní ID)
+        if (!response.ok) {
+            const errorData = await response.json();
+            alert(errorData.error || "Error while adding product");
+            return;
+        }
+
+        // Pokud vše OK
+        fetchProducts();
+
+    } catch (error) {
+        console.error("Error:", error);
+        alert("Server is not available");
+    }
+} 
+
+        async function updateProduct() {
+            const id = productId.value;
+            const name = productName.value;
+            const price = productPrice.value;
+
+            await fetch(`${API_URL}/${id}`, {
+                method: "PUT",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify({ id, name, price })
+            });
+
+            fetchProducts();
+        }
+
+        async function deleteProduct(id) {
+            await fetch(`${API_URL}/${id}`, { method: "DELETE" });
+            fetchProducts();
+        }
+
+        fetchProducts();
+    </script>
+</body>
+</html>

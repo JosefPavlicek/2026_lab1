@@ -1,0 +1,12 @@
+How to run python server python3 -m http.server 8000
+
+
+How to run vercel dev (you must be registered)
+
+vercel dev : 
+Goto application root
+for excample:  cd lab5
+and run 
+npm i -g vercel
+vercel login
+
