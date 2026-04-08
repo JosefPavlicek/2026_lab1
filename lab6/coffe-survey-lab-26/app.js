@@ -1,4 +1,4 @@
-const firebaseURL = 'https://'; // Replace with your Firebase project URL
+const firebaseURL = 'https://......'; // Replace with your Firebase project URL
 
 const brewingOptions = [
   'Ristretto', 'Espresso', 'Double Espresso', 'Lungo/Americano',
