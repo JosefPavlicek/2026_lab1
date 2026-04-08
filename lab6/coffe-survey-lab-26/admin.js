@@ -1,4 +1,4 @@
-const firebaseURL = 'https://school-2340a-default-rtdb.europe-west1.firebasedatabase.app'; // Replace with your Firebase URL
+const firebaseURL = 'https://'; // Replace with your Firebase URL
 
 const validUsername = "admin";
 const validPassword = "admin123";
