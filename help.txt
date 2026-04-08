@@ -9,4 +9,5 @@ for excample:  cd lab5
 and run 
 npm i -g vercel
 vercel login
+vercel dev
 

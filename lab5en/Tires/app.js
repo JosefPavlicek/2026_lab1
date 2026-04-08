@@ -33,7 +33,7 @@ document.getElementById("delete").onclick = () => {
   fetch(`${firebaseURL}/reservations/${key}.json`, {
     method: "DELETE"
   }).then(() => {
-    alert("Reservation deleted.");
+    alert("Reservation via key"+key+" deleted.");
     loadReservations();
   });
 };

@@ -1,5 +1,6 @@
 //const FIREBASE_URL = process.env.FIREBASE_URL;... used for vercel or server enviromens .. will be explained later
-const FIREBASE_URL = 'https://school-2340a-default-rtdb.europe-west1.firebasedatabase.app/'; // Replace with your actual Firebase URL
+//const FIREBASE_URL = 'https://school-2340a-default-rtdb.europe-west1.firebasedatabase.app/'; To je skolni, tu pouzivame
+const FIREBASE_URL = 'https://smzat-40306-default-rtdb.europe-west1.firebasedatabase.app/'; // Replace with your actual Firebase URL
 
 if (!FIREBASE_URL) {
   throw new Error("Missing FIREBASE_URL environment variable.");
