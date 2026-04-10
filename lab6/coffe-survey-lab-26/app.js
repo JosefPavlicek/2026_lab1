@@ -97,7 +97,7 @@ document.getElementById("submitBtn").onclick = () => {
 
 document.getElementById("langSwitch").onclick = () => {
   const current = document.documentElement.lang;
-  const nextLang = current === 'en' ? 'cz' : 'en';
+  const nextLang = current === 'en' ? 'cs' : 'en';
   document.documentElement.lang = nextLang;
   translate(nextLang);
 };
