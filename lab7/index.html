@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="cs">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -26,11 +27,12 @@
             background: white;
             padding: 20px;
             border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
             margin-bottom: 24px;
         }
 
-        h1, h2 {
+        h1,
+        h2 {
             margin-top: 0;
         }
 
@@ -85,6 +87,12 @@
             stroke: #999;
             stroke-opacity: 0.75;
             stroke-width: 2;
+            cursor: pointer;
+        }
+
+        .link:hover {
+            stroke: red;
+            stroke-width: 4;
         }
 
         .node {
@@ -129,6 +137,7 @@
         }
     </style>
 </head>
+
 <body>
     <div class="page">
 
@@ -148,7 +157,7 @@
                 <button id="exportJsonBtn" type="button">Export JSON</button>
                 <button id="resetGraphBtn" type="button">Reset grafu</button>
                 <span class="hint">
-                    Klik do plochy = nový node. Klik na 2 nody po sobě = propojení. Přetažením node přesuneš.
+                    Klik do plochy = nový node. Klik na 2 nody po sobě = propojení. Přetažením node přesuneš. Kiknutím na vazbu ji zrušíš.
                 </span>
             </div>
 
@@ -169,4 +178,5 @@
 
     <script src="app.js"></script>
 </body>
+
 </html>
