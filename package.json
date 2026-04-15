@@ -20,7 +20,7 @@
   "homepage": "https://github.com/JosefPavlicek/2026_lab1#readme",
   "dependencies": {
     "cors": "^2.8.6",
-    "express": "^5.2.1"
-  },
-  "devDependencies": {}
+    "express": "^5.2.1",
+    "vercel": "^51.2.1"
+  }
 }
