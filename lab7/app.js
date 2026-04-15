@@ -166,7 +166,7 @@ function initNetworkGraph() {
 
     const simulation = d3.forceSimulation(graphData.nodes)
         .force('link', d3.forceLink(graphData.links).id(d => d.id).distance(130))
-        .force('charge', d3.forceManyBody().strength(-480))
+        .force('charge', d3.forceManyBody().strength(-100))
         .force('center', d3.forceCenter(width / 2, height / 2))
         .force('collision', d3.forceCollide().radius(42));
 
@@ -193,6 +193,12 @@ function initNetworkGraph() {
 
     d3.select('#exportJsonBtn').on('click', () => {
         exportGraphJson();
+    });
+    d3.select('#centerGraphBtn').on('click', () => {
+        centerGraph();
+        saveGraph();
+        updateGraph();
+        setStatus('Nody byly srovnány ke středu.');
     });
 
     d3.select('#resetGraphBtn').on('click', () => {
@@ -242,7 +248,9 @@ function initNetworkGraph() {
             id: nextId++,
             label,
             x,
-            y
+            y,
+            fx: x,
+            fy: y
         };
 
         graphData.nodes.push(node);
@@ -250,6 +258,11 @@ function initNetworkGraph() {
         rebindSimulation();
         updateGraph();
         setStatus(`Přidán nový node: ${label}`);
+
+        setTimeout(() => {
+            node.fx = null;
+            node.fy = null;
+        }, 500);
     }
 
     function connectNodes(sourceId, targetId) {
@@ -303,11 +316,48 @@ function initNetworkGraph() {
         updateGraph();
         setStatus(`Node "${node.label}" byl smazán.`);
     }
+    function centerGraph() {
+        if (graphData.nodes.length === 0) return;
+
+        const centerX = width / 2;
+        const centerY = height / 2;
+
+        const avgX = graphData.nodes.reduce((sum, n) => sum + n.x, 0) / graphData.nodes.length;
+        const avgY = graphData.nodes.reduce((sum, n) => sum + n.y, 0) / graphData.nodes.length;
+
+        const dx = centerX - avgX;
+        const dy = centerY - avgY;
+
+        graphData.nodes.forEach(node => {
+            node.x += dx;
+            node.y += dy;
+
+            node.x = clamp(node.x, 40, width - 40);
+            node.y = clamp(node.y, 40, height - 40);
+
+            node.fx = node.x;
+            node.fy = node.y;
+        });
+
+        simulation.alpha(0.5).restart();
+
+        setTimeout(() => {
+            graphData.nodes.forEach(node => {
+                node.fx = null;
+                node.fy = null;
+            });
+            saveGraph();
+            updateGraph();
+        }, 500);
+    }
 
     function rebindSimulation() {
         simulation.nodes(graphData.nodes);
         simulation.force('link').links(graphData.links);
-        simulation.alpha(1).restart();
+        simulation.alpha(0.04).restart();
+    }
+    function clamp(value, min, max) {
+        return Math.max(min, Math.min(max, value));
     }
 
     function updateGraph() {
@@ -318,32 +368,32 @@ function initNetworkGraph() {
         links.exit().remove();
 
         links.enter()
-        .append('line')
-        .attr('class', 'link')
-        .on('click', function(event, d) {
-            event.stopPropagation();
+            .append('line')
+            .attr('class', 'link')
+            .on('click', function (event, d) {
+                event.stopPropagation();
 
-        const sourceId = getNodeId(d.source);
-        const targetId = getNodeId(d.target);
+                const sourceId = getNodeId(d.source);
+                const targetId = getNodeId(d.target);
 
-        // odstranění linku
-        graphData.links = graphData.links.filter(link => {
-            const s = getNodeId(link.source);
-            const t = getNodeId(link.target);
+                // odstranění linku
+                graphData.links = graphData.links.filter(link => {
+                    const s = getNodeId(link.source);
+                    const t = getNodeId(link.target);
 
-            return !(
-                (s === sourceId && t === targetId) ||
-                (s === targetId && t === sourceId)
-            );
-        });
+                    return !(
+                        (s === sourceId && t === targetId) ||
+                        (s === targetId && t === sourceId)
+                    );
+                });
 
-        saveGraph();
-        rebindSimulation();
-        updateGraph();
+                saveGraph();
+                rebindSimulation();
+                updateGraph();
 
-        setStatus(`Spojení ${sourceId} ↔ ${targetId} bylo odstraněno`);
-    })
-    .merge(links);
+                setStatus(`Spojení ${sourceId} ↔ ${targetId} bylo odstraněno`);
+            })
+            .merge(links);
 
         const nodes = nodeLayer
             .selectAll('g.node')
@@ -406,7 +456,11 @@ function initNetworkGraph() {
                 .attr('y2', d => d.target.y);
 
             nodeLayer.selectAll('g.node')
-                .attr('transform', d => `translate(${d.x},${d.y})`);
+                .attr('transform', d => {
+                    d.x = clamp(d.x, 40, width - 40);
+                    d.y = clamp(d.y, 40, height - 40);
+                    return `translate(${d.x},${d.y})`;
+                });
         });
 
         updateJsonPreview();
