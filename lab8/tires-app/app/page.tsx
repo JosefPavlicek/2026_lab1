@@ -23,6 +23,16 @@ export default function Page() {
 
   useEffect(() => { load(); }, []);
 
+  // Funkce pro kliknutí na řádek v seznamu
+  const handleSelect = (reservation: any) => {
+    setForm({
+      time: reservation.time || "",
+      name: reservation.name || "",
+      car: reservation.car || "",
+      phone: reservation.phone || ""
+    });
+  };
+
   async function create() {
     await fetch("/api/reservations", {
       method: "POST",
@@ -53,24 +63,53 @@ export default function Page() {
     <main className="p-4 max-w-xl mx-auto">
       <h1 className="text-xl font-bold mb-4">Tire Reservation</h1>
 
-      <input type="datetime-local" onChange={e => setForm({...form, time: e.target.value})} className="border p-2 w-full mb-2"/>
-      <input placeholder="Name" onChange={e => setForm({...form, name: e.target.value})} className="border p-2 w-full mb-2"/>
-      <input placeholder="Car" onChange={e => setForm({...form, car: e.target.value})} className="border p-2 w-full mb-2"/>
-      <input placeholder="Phone" onChange={e => setForm({...form, phone: e.target.value})} className="border p-2 w-full mb-2"/>
+      {/* Přidány atributy 'value' pro synchronizaci se stavem */}
+      <input 
+        type="datetime-local" 
+        value={form.time}
+        onChange={e => setForm({...form, time: e.target.value})} 
+        className="border p-2 w-full mb-2"
+      />
+      <input 
+        placeholder="Name" 
+        value={form.name}
+        onChange={e => setForm({...form, name: e.target.value})} 
+        className="border p-2 w-full mb-2"
+      />
+      <input 
+        placeholder="Car" 
+        value={form.car}
+        onChange={e => setForm({...form, car: e.target.value})} 
+        className="border p-2 w-full mb-2"
+      />
+      <input 
+        placeholder="Phone" 
+        value={form.phone}
+        onChange={e => setForm({...form, phone: e.target.value})} 
+        className="border p-2 w-full mb-2"
+      />
 
       <div className="flex gap-2 mb-4">
-        <button onClick={create} className="rounded bg-blue-600 px-4 py-2 text-white shadow transition duration-150 hover:bg-blue-700 active:scale-95 active:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-400">Create</button>
-        <button onClick={update} className="bg-yellow-500 text-white px-3 py-1">Update</button>
-        <button onClick={remove} className="bg-red-500 text-white px-3 py-1">Delete</button>
+        <button onClick={create} className="rounded bg-blue-600 px-4 py-2 text-white shadow transition hover:bg-blue-700 active:scale-95">Create</button>
+        <button onClick={update} className="rounded bg-yellow-500 text-white px-4 py-2 shadow transition hover:bg-yellow-600 active:scale-95">Update</button>
+        <button onClick={remove} className="rounded bg-red-500 text-white px-4 py-2 shadow transition hover:bg-red-700 active:scale-95">Delete</button>
       </div>
 
-      <ul>
-        {Object.entries(data).map(([k, r]: any) => (
-          <li key={k} onClick={() => setForm(r)} className="border p-2 mb-2 cursor-pointer">
-            {r.time} - {r.name}
-          </li>
-        ))}
-      </ul>
+      <div className="bg-gray-50 rounded p-2">
+        <h2 className="font-semibold mb-2">Seznam rezervací (kliknutím upravte):</h2>
+        <ul>
+          {Object.entries(data).map(([k, r]: any) => (
+            <li 
+              key={k} 
+              onClick={() => handleSelect(r)} 
+              className="border p-2 mb-2 cursor-pointer hover:bg-blue-50 transition bg-white rounded shadow-sm flex justify-between"
+            >
+              <span>{r.time.replace("T", " ")}</span>
+              <span className="font-medium">{r.name}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
     </main>
   );
 }
