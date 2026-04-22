@@ -65,13 +65,16 @@ const nodes = [
   { id: "Alice" },
   { id: "Bob" },
   { id: "Carol" },
-  { id: "Dave" }
+  { id: "Dave" },
+  { id: "EVE" }
 ];
 
 const links = [
   { source: "Alice", target: "Bob" },
   { source: "Alice", target: "Carol" },
-  { source: "Bob", target: "Dave" }
+  { source: "Bob", target: "Dave" },
+  { source: "Alice", target: "EVE" },
+  { source: "EVE", target: "Dave" }
 ];
 
 const simulation = d3.forceSimulation(nodes)
@@ -90,7 +93,7 @@ const node = svg.append("g")
   .data(nodes)
   .enter().append("circle")
   .attr("r", 10)
-  .attr("fill", "#2196f3")
+  .attr("fill", "#2a9708")
   .call(d3.drag()
     .on("start", dragstarted)
     .on("drag", dragged)
