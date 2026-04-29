@@ -1,0 +1,6 @@
+body { background: #f6f7fb; }
+.card, .table-responsive { border-radius: 16px; overflow: hidden; }
+.form-card { max-width: 760px; margin: 0 auto; }
+form p { margin-bottom: 1rem; }
+form label { font-weight: 600; display: block; margin-bottom: .35rem; }
+form input, form select, form textarea { width: 100%; padding: .5rem .75rem; border: 1px solid #ced4da; border-radius: .5rem; }

@@ -1,0 +1,17 @@
+{% extends 'reservations/base.html' %}
+{% block content %}
+<div class="card shadow-sm">
+    <div class="card-body">
+        <h1>{{ object.customer_name }}</h1>
+        <p><strong>Kontakt:</strong> {{ object.email }}, {{ object.phone }}</p>
+        <p><strong>Auto:</strong> {{ object.car_model }}</p>
+        <p><strong>Rozměr pneumatik:</strong> {{ object.tire_size|default:'neuvedeno' }}</p>
+        <p><strong>Služba:</strong> {{ object.get_service_type_display }}</p>
+        <p><strong>Termín:</strong> {{ object.reservation_date }} v {{ object.reservation_time }}</p>
+        <p><strong>Stav:</strong> {{ object.get_status_display }}</p>
+        <p><strong>Poznámka:</strong> {{ object.note|default:'-' }}</p>
+        <a class="btn btn-success" href="{% url 'reservation-update' object.pk %}">Upravit</a>
+        <a class="btn btn-outline-secondary" href="{% url 'reservation-list' %}">Zpět</a>
+    </div>
+</div>
+{% endblock %}

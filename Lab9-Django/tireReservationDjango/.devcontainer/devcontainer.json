@@ -1,0 +1,12 @@
+{
+  "name": "Django Tire Reservation",
+  "image": "mcr.microsoft.com/devcontainers/python:3.12",
+  "postCreateCommand": "python -m pip install -r requirements.txt",
+  "forwardPorts": [8000],
+  "portsAttributes": {
+    "8000": {
+      "label": "Django app",
+      "onAutoForward": "openPreview"
+    }
+  }
+}

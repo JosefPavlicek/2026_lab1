@@ -1,0 +1,14 @@
+{% extends 'reservations/base.html' %}
+{% block content %}
+<div class="card shadow-sm form-card">
+    <div class="card-body">
+        <h1>{% if object %}Upravit rezervaci{% else %}Nová rezervace{% endif %}</h1>
+        <form method="post" class="mt-3">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button class="btn btn-primary" type="submit">Uložit</button>
+            <a class="btn btn-outline-secondary" href="{% url 'reservation-list' %}">Zpět</a>
+        </form>
+    </div>
+</div>
+{% endblock %}

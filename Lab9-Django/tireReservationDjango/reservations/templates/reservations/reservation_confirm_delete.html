@@ -1,0 +1,14 @@
+{% extends 'reservations/base.html' %}
+{% block content %}
+<div class="card shadow-sm">
+    <div class="card-body">
+        <h1>Smazat rezervaci</h1>
+        <p>Opravdu chcete smazat rezervaci zákazníka <strong>{{ object.customer_name }}</strong>?</p>
+        <form method="post">
+            {% csrf_token %}
+            <button class="btn btn-danger" type="submit">Ano, smazat</button>
+            <a class="btn btn-outline-secondary" href="{% url 'reservation-list' %}">Zpět</a>
+        </form>
+    </div>
+</div>
+{% endblock %}
